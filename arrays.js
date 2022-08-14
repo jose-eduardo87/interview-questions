@@ -32,7 +32,7 @@ const maxArea = function (height) {
   return area;
 };
 
-// console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]));
+// console.log('Container with most water: ', maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]));
 
 // *********** 3Sum ***********
 // Level: Medium
@@ -63,13 +63,46 @@ const maxArea = function (height) {
 // Explanation: The only possible triplet sums up to 0.
 
 const threeSum = (nums) => {
+  nums = nums.sort((a, b) => a - b);
   const result = [];
-  // let i =
 
-  // while() {}
+  for (let i = 0; i < nums.length - 1; i++) {
+    let j = i + 1,
+      k = nums.length - 1;
+    while (j < k) {
+      if (nums[i] + nums[j] + nums[k] === 0) {
+        result.push([nums[i], nums[j], nums[k]]);
+      }
+      if (k - j === 1) {
+        j++;
+        k = nums.length - 1;
+      } else {
+        k--;
+      }
+    }
+  }
+
+  if (result.length < 2) {
+    return result;
+  }
+
+  // need to figure out a way of excluding repeated values
+  for (let i = 0; i < result.length; i++) {
+    const j = result.length - 1;
+    const isEqual = result[i].every((value, index) => value === result[index]);
+    console.log(isEqual);
+
+    // if(isEqual) {
+    //   result = result.slice();
+    // }
+  }
+
+  return result;
 };
 
-// *********** COUNT PAIRS WITH GIVEN SUM *********** (NOT WORKING!!!)
+console.log("threeSum: ", threeSum([-1, 0, 1, 2, -1, -4]));
+
+// *********** COUNT PAIRS WITH GIVEN SUM ***********
 // Level: Medium
 
 // Given an array of integers, and a number ‘sum’, find the number of pairs of integers in the array whose sum is equal to ‘sum’.
@@ -93,39 +126,27 @@ const threeSum = (nums) => {
 // Input:  arr[] = {10, 12, 10, 15, -1, 7, 6, 5, 4, 2, 1, 1, 1}, sum = 11
 // Output:  9
 
-const getPairsCount = (array, sum) => {
-  const sortedArray = array.sort((a, b) => a - b);
+const getPairsCount = (arr, sum) => {
   let i = 0,
-    j = array.length - 1,
-    numberOfPairs = 0;
+    j = arr.length - 1,
+    pairs = 0;
 
   while (i < j) {
-    const currentSum = sortedArray[i] + sortedArray[j];
-
-    if (currentSum === sum) {
-      numberOfPairs++;
-
-      if (sortedArray[j] !== sortedArray[j - 1]) {
-        if (i < j) {
-        }
-        // i++;
-        j = array.length - 1;
-      } else {
-        if (j - i === 1) {
-          j = array.length - 1;
-          i++;
-        } else {
-          j--;
-        }
-      }
-    } else if (currentSum > sum) {
-      j--;
-    } else {
+    if (arr[i] + arr[j] === sum) {
+      pairs++;
+    }
+    if (j - i === 1) {
       i++;
+      j = arr.length - 1;
+    } else {
+      j--;
     }
   }
 
-  return numberOfPairs;
+  return pairs;
 };
 
-// console.log(getPairsCount([1, 5, 7, -1], 6));
+// console.log(
+//   "getPairsCount: ",
+//   getPairsCount([10, 12, 10, 15, -1, 7, 6, 5, 4, 2, 1, 1, 1], 11)
+// );
