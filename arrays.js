@@ -64,7 +64,7 @@ const maxArea = function (height) {
 
 const threeSum = (nums) => {
   nums = nums.sort((a, b) => a - b);
-  const result = [];
+  let result = [];
 
   for (let i = 0; i < nums.length - 1; i++) {
     let j = i + 1,
@@ -86,21 +86,33 @@ const threeSum = (nums) => {
     return result;
   }
 
-  // need to figure out a way of excluding repeated values
-  for (let i = 0; i < result.length; i++) {
-    const j = result.length - 1;
-    const isEqual = result[i].every((value, index) => value === result[index]);
-    console.log(isEqual);
+  // excluding any repeated value from the result array: (not working!)
+  let j = 0,
+    k = result.length - 1;
 
-    // if(isEqual) {
-    //   result = result.slice();
-    // }
+  while (j < k) {
+    const areArraysEqual = result[j].every(
+      (value, idx) => value === result[k][idx]
+    );
+    console.log(areArraysEqual);
+
+    if (areArraysEqual) {
+      console.log("inside if.");
+      result.splice(1, j);
+    }
+
+    if (k - j === 1) {
+      j++;
+      k = result.length - 1;
+    } else {
+      k--;
+    }
   }
 
   return result;
 };
 
-console.log("threeSum: ", threeSum([-1, 0, 1, 2, -1, -4]));
+console.log("threeSum: ", threeSum([0, 0, 0, 0]));
 
 // *********** COUNT PAIRS WITH GIVEN SUM ***********
 // Level: Medium
