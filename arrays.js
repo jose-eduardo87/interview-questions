@@ -1,5 +1,68 @@
 document.body.style.backgroundColor = "#000";
 
+// *********** TWO SUM ***********
+// Leven: Easy
+
+// Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+// You may assume that each input would have exactly one solution, and you may not use the same element twice.
+// You can return the answer in any order.
+
+// Example 1:
+
+// Input: nums = [2,7,11,15], target = 9
+// Output: [0,1]
+// Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+// Example 2:
+
+// Input: nums = [3,2,4], target = 6
+// Output: [1,2]
+// Example 3:
+
+// Input: nums = [3,3], target = 6
+// Output: [0,1]
+
+const twoSum = (nums, target) => {
+  if (nums.length < 2) {
+    return null;
+  }
+
+  let i = 0,
+    j = nums.length - 1;
+
+  while (i < j) {
+    if (nums[i] + nums[j] === target) {
+      return [i, j];
+    }
+    if (j - i === 1) {
+      i++;
+      j = nums.length - 1;
+    } else {
+      j--;
+    }
+  }
+
+  return null;
+};
+
+// console.log("Two Sum: ", twoSum([1, 3, 7, 9, 2], 25));
+
+// Using hashmap, it greatly improves time complexity at the cost of some space. Consider this function as the optimal solution.
+const twoSumHashMap = (nums, target) => {
+  const map = {};
+
+  for (let i = 0; i < nums.length; i++) {
+    const currentNumber = nums[i];
+
+    if (map[currentNumber] === undefined) {
+      map[target - currentNumber] = i;
+    } else {
+      return [map[currentNumber], i];
+    }
+  }
+};
+
+// console.log("Two Sum Hashmap: ", twoSumHashMap([2, 7, 11, 15], 9));
+
 // *********** CONTAINER WITH MOST WATER ***********
 // Level: Medium
 
@@ -94,11 +157,9 @@ const threeSum = (nums) => {
     const areArraysEqual = result[j].every(
       (value, idx) => value === result[k][idx]
     );
-    console.log(areArraysEqual);
 
     if (areArraysEqual) {
-      console.log("inside if.");
-      result.splice(1, j);
+      result.splice(j, 1);
     }
 
     if (k - j === 1) {
@@ -112,7 +173,10 @@ const threeSum = (nums) => {
   return result;
 };
 
-console.log("threeSum: ", threeSum([0, 0, 0, 0]));
+console.log(
+  "threeSum: ",
+  threeSum([-4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6])
+);
 
 // *********** COUNT PAIRS WITH GIVEN SUM ***********
 // Level: Medium
